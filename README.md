@@ -1,5 +1,5 @@
 # kafka-elasticsearch
 - `./gradlew buildDocker`
-- `cd docker``
+- `cd docker`
 - `docker-compose up`
 
