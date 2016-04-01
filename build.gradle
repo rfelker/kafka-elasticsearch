@@ -1,0 +1,68 @@
+group 'de.codecentric'
+version '1.0-SNAPSHOT'
+
+
+buildscript {
+    ext {
+
+        springBootVersion = '1.3.3.RELEASE'
+        slf4JVersion = '1.7.13'
+
+        junitVersion = '4.12'
+        hierarchicalContextRunnerVersion = '4.12.1'
+
+        gradleDockerVersion = '1.2'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "net.saliman:gradle-cobertura-plugin:2.3.0"
+        classpath "se.transmode.gradle:gradle-docker:${gradleDockerVersion}"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+
+idea {
+    project {
+        languageLevel = 1.8
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+subprojects {
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+
+    if( project.name != "name1" && project.name != "name2") {
+        apply plugin: 'net.saliman.cobertura'
+        cobertura {
+            coverageFormats = ['xml']
+        }
+    }
+}
+
+apply plugin: 'net.saliman.cobertura'
+
+cobertura {
+    coverageFormats = ['xml']
+    rootProject.subprojects.each {
+        coverageDirs << file("${it.name}/build/classes/main")
+    }
+}
+
+task buildDocker {
+    dependsOn(subprojects.tasks.flatten().findAll { it.name == 'buildDocker' })
+}

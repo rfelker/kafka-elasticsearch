@@ -1,0 +1,15 @@
+eventbus:
+  image: de.codecentric/eventbus:0.1-SNAPSHOT
+  hostname: eventbus
+  restart: always
+
+elasticsearch:
+  image: de.codecentric/elasticsearch:0.1-SNAPSHOT
+  hostname: elasticsearch
+  restart: always
+  ports:
+   - "9200:9200"
+   - "9300:9300"
+  links:
+  - eventbus:eventbus
+

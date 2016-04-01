@@ -1,0 +1,11 @@
+group 'de.codecentric'
+version '0.1-SNAPSHOT'
+
+apply plugin: 'docker'
+
+task buildDocker(type: Docker) {
+    push = false
+    applicationName = "elasticsearch"
+    stageDir = file("${rootProject.projectDir}/docker/elasticsearch")
+    dockerfile = file("${stageDir}/Dockerfile")
+}
