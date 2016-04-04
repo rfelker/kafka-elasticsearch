@@ -13,3 +13,8 @@ elasticsearch:
   links:
   - eventbus:eventbus
 
+producer:
+  image: de.codecentric/producer:0.1-SNAPSHOT
+  restart: always
+  links:
+  - eventbus:eventbus
