@@ -15,9 +15,6 @@ public class ProducerConfig {
     @Value("${producertask.topic}")
     private String topic;
 
-    @Value("${producertask.pagesize}")
-    private int pageSize;
-
     @Autowired
     private Environment env;
 
@@ -43,9 +40,5 @@ public class ProducerConfig {
 
     public String getTopic() {
         return topic;
-    }
-
-    public int getPageSize() {
-        return pageSize;
     }
 }
