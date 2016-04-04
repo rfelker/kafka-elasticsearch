@@ -1,0 +1,26 @@
+# -------------------------------------------
+# consumer config
+# -------------------------------------------
+bootstrap.servers: eventbus:9092
+group.id: eventsGroup
+enable.auto.commit: true
+auto.commit.interval.ms: 1000
+session.timeout.ms: 30000
+key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+client.id: Kafka-Consumer
+
+
+
+# -------------------------------------------
+# task config
+# -------------------------------------------
+consumertask:
+  fixedDelay: 1000
+  topics: events
+
+
+# eventbus
+# elasticsearch
+# localhost
+# topic: actvalues, kpc

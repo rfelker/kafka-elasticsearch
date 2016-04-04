@@ -1,35 +1,35 @@
 # -------------------------------------------
 # producer config
 # -------------------------------------------
-bootstrap.servers=eventbus:9092
+bootstrap.servers: eventbus:9092
 
 # 0, 1, all: acknowledgment from followers
-acks=1
+acks: 1
 
 # default 33554432 = 32MB
-buffer.memory=33554432
+buffer.memory: 33554432
 
 # none, gzip, or snappy
-compression.type=none
+compression.type: none
 
 # resend failed records
-retries=0
+retries: 0
 
 # wait before sending a request (batching)
-linger.ms=10
+linger.ms: 10
 
 # batch size requests to the server
-batch.size=16384
+batch.size: 16384
 
 # only for logging purpose
-client.id=Kafka-Producer
+client.id: Kafka-Producer
 
-key.serializer=org.apache.kafka.common.serialization.StringSerializer
-value.serializer=org.apache.kafka.common.serialization.StringSerializer
+key.serializer: org.apache.kafka.common.serialization.StringSerializer
+value.serializer: org.apache.kafka.common.serialization.StringSerializer
 
 # -------------------------------------------
 # task config
 # -------------------------------------------
-producertask.fixedDelay=100
-producertask.topic=events
-producertask.pagesize=10
+producertask:
+  fixedDelay: 100
+  topic: events
