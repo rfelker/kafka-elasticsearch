@@ -30,7 +30,7 @@ public class ConsumerTask {
     }
 
     @PreDestroy
-    private void destroyConsumer(){
+    private void destroyConsumer() {
         if (consumer != null) {
             consumer.close();
         }
@@ -41,7 +41,7 @@ public class ConsumerTask {
 
         ConsumerRecords<String, String> records = consumer.poll(100);
 
-        if(records.isEmpty()){
+        if (records.isEmpty()) {
             return;
         }
 
@@ -50,6 +50,11 @@ public class ConsumerTask {
     }
 
     private void consumeRecord(ConsumerRecord<String, String> record) {
-            log.info(String.format("message: offset=%d, key=%s, value=%s", record.offset(), record.key(), record.value()));
+        log.info(String.format("message: key=%s, value=%s, offset=%d, partition=%d, topic=%s",
+                record.key(),
+                record.value(),
+                record.offset(),
+                record.partition(),
+                record.topic()));
     }
 }
