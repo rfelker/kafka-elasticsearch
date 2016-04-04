@@ -3,18 +3,30 @@ eventbus:
   hostname: eventbus
   restart: always
 
-elasticsearch:
-  image: de.codecentric/elasticsearch:0.1-SNAPSHOT
-  hostname: elasticsearch
-  restart: always
-  ports:
-   - "9200:9200"
-   - "9300:9300"
-  links:
-  - eventbus:eventbus
+# elasticsearch:
+#  image: de.codecentric/elasticsearch:0.1-SNAPSHOT
+#  hostname: elasticsearch
+#  restart: always
+#  ports:
+#   - "9200:9200"
+#   - "9300:9300"
+#  links:
+#  - eventbus:eventbus
 
 producer:
   image: de.codecentric/producer:0.1-SNAPSHOT
+  restart: always
+  links:
+  - eventbus:eventbus
+
+consumer-0:
+  image: de.codecentric/consumer:0.1-SNAPSHOT
+  restart: always
+  links:
+  - eventbus:eventbus
+
+consumer-1:
+  image: de.codecentric/consumer:0.1-SNAPSHOT
   restart: always
   links:
   - eventbus:eventbus
