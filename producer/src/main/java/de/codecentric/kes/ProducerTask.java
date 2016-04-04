@@ -12,10 +12,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.Date;
 
 @Component
-public class ProducerTask implements Callback{
+public class ProducerTask implements Callback {
 
     private static final Logger log = LoggerFactory.getLogger(ProducerTask.class);
 
@@ -28,19 +29,29 @@ public class ProducerTask implements Callback{
         producer = new KafkaProducer<>(config.producerProperties());
     }
 
+    @PreDestroy
+    private void destroyConsumer() {
+        if (producer != null) {
+            producer.close();
+        }
+    }
+
     @Scheduled(fixedDelayString = "${producertask.fixedDelay}")
     public void produceMessages() {
 
         String value = "time_" + new Date().getTime();
-
         log.info("sending message with value=" + value);
-        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(config.getTopic(), "key", value);
+
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(config.getTopic(), null /*"key"*/ , value);
         producer.send(producerRecord, this);
     }
 
     @Override
     public void onCompletion(RecordMetadata metadata, Exception exception) {
-        log.info(String.format("onCompletion: metadata=%s, exception=%s", metadata, exception));
+
+        if (exception != null) {
+            log.error("error sending message to kafka", exception);
+        }
 
     }
 }
