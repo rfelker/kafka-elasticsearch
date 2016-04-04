@@ -12,40 +12,32 @@ import java.util.Properties;
 @Configuration
 public class ConsumerConfig {
 
-    @Value("${producetask.topic}")
-    private String topic;
-
-    @Value("${producetask.pagesize}")
-    private int pageSize;
+    @Value("${consumertask.topics}")
+    private List<String> topics;
 
     @Autowired
     private Environment env;
 
-    public Properties producerProperties() {
+    public Properties consumerProperties() {
 
         Properties properties = new Properties();
 
         List<String> keys = Arrays.asList(
-                org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.BUFFER_MEMORY_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.COMPRESSION_TYPE_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.RETRIES_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.BATCH_SIZE_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.CLIENT_ID_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.LINGER_MS_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG);
+                org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG,
+                org.apache.kafka.clients.consumer.ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,
+                org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG,
+                org.apache.kafka.clients.consumer.ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG,
+                org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+                org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                org.apache.kafka.clients.consumer.ConsumerConfig.CLIENT_ID_CONFIG);
 
         keys.forEach(key -> properties.put(key, env.getProperty(key)));
         return properties;
     }
 
-    public String getTopic() {
-        return topic;
+    public List<String> getTopics() {
+        return topics;
     }
 
-    public int getPageSize() {
-        return pageSize;
-    }
 }
