@@ -39,10 +39,11 @@ public class ProducerTask implements Callback {
     @Scheduled(fixedDelayString = "${producertask.fixedDelay}")
     public void produceMessages() {
 
+        String key = null;
         String value = "time_" + new Date().getTime();
-        log.info("sending message with value=" + value);
+        log.info(String.format("sending message: key=%s, value=%s", key, value));
 
-        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(config.getTopic(), null /*"key"*/ , value);
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(config.getTopic(), key, value);
         producer.send(producerRecord, this);
     }
 
