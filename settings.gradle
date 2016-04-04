@@ -2,4 +2,5 @@ rootProject.name = 'kafka-elasticsearch'
 include 'elasticsearch'
 include 'eventbus'
 include 'producer'
+include 'consumer'
 
